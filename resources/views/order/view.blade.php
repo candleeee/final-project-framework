@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    @vite('resources/css/card.css') <!-- Ensure this is inside the main container div -->
+    @vite('resources/css/card.css')
     <hr>
     <div class="table-responsive border p-3 rounded-3">
         <table class="table table-bordered table-hover table-striped mb-0 bg-white">

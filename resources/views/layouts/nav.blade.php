@@ -13,10 +13,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <hr class="d-lg-none text-white-50">
             <ul class="navbar-nav flex-row flex-wrap">
-                <li class="nav-item col-6 col-md-auto"><a href="{{ route('shop') }}" class="nav-link">Beranda</a>
-                </li>
-                <li class="nav-item col-6 col-md-auto"><a href="{{ route('checkout.index') }}"
-                        class="nav-link">Katalog</a></li>
+                <li class="nav-item col-6 col-md-auto"><a href="{{ route('shop') }}" class="nav-link">Beranda</a></li>
+                <li class="nav-item col-6 col-md-auto"><a href="{{ route('checkout.index') }}" class="nav-link">Katalog</a></li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -25,7 +25,7 @@
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item">{{ Auth::user()->email }}</a>
-                    <hr class="m-0 p-0">
+                        <hr class="m-0 p-0">
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">

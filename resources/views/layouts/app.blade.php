@@ -17,6 +17,8 @@
     @include('layouts.nav')
     @yield('content')
     @vite('resources/js/app.js')
+    @include('sweetalert::alert')
+    @stack('scripts')
     {{-- <!-- Include Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script> --}}
 </body>

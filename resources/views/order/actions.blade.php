@@ -12,7 +12,8 @@
         <form action="{{ route('checkout.destroy', ['checkout' => $barang->id]) }}" method="POST">
             @csrf
             @method('delete')
-            <button type="submit" class="btn btn-outline-dark btn-sm me-2">
+            <button type="submit" class="btn btn-outline-dark btn-sm me-2 btn-delete"
+            data-name="{{ $barangs->nama_barang }}">
                 <i class="bi bi-trash-fill"></i>
             </button>
         </form>

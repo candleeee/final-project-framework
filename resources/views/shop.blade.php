@@ -65,10 +65,7 @@
         </div>
         </div>
     </nav>
-    {{-- biodata --}}
-    <div class="text">
-        <h2>HOLLA! NICE TO MEET YOU</h2>
-    </div>
+
     <div class="card-owner">
         <div class="row g-0">
             <div class="col-md-4">
@@ -144,7 +141,7 @@
         <div class="katalog-item">
             <img src="{{ Vite::asset('../resources/images/men2.jpg') }}" alt="Product 4">
             <div class="katalog-content">
-                <p>Jacket</p>
+                <p>Outer</p>
 
             </div>
         </div>
@@ -160,7 +157,7 @@
         <div class="katalog-item">
             <img src="{{ Vite::asset('../resources/images/bag2.jpg') }}" alt="Product 6">
             <div class="katalog-content">
-                <p>Cuttie Bag</p>
+                <p>Cutie Bag</p>
 
             </div>
         </div>

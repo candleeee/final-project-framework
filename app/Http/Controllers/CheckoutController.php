@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Barang;
 use App\Models\Satuan;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CheckoutController extends Controller
 {
@@ -14,6 +15,8 @@ class CheckoutController extends Controller
     {
         $pageTitle = 'Checkout';
         $barangs = Barang::all();
+
+        confirmDelete();
 
         return view('order.index', [
             'pageTitle' => $pageTitle,
@@ -39,6 +42,8 @@ class CheckoutController extends Controller
             'satuan_id' => 'required',
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
+
+        Alert::success('Added Successfully', 'Item Added Successfully.');
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -108,6 +113,9 @@ class CheckoutController extends Controller
             }
         });
 
+        Alert::success('Changed Successfully', 'Item Changed
+Successfully.');
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -150,6 +158,10 @@ class CheckoutController extends Controller
 
         $barang->delete();
 
+        Alert::success('Deleted Successfully', 'Item Deleted
+
+
+        Successfully.');
         // Redirect dengan SweetAlert
         return redirect()->route('checkout.index')->with('success', 'Barang berhasil dihapus!');
     }

@@ -18,8 +18,12 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container">
+                    <a href="{{ route('shop') }}" class="navbar-brand mb-0 h1">
+                        <img src="{{ Vite::asset('../resources/images/autumn.png') }}" alt="Autumn Logo" class="me-2" style="height: 24px;">
+                        Autumn Collection
+                    </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

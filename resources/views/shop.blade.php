@@ -33,36 +33,46 @@
                 <hr class="d-lg-none text-white-50">
 
                 <ul class="navbar-nav flex-row flex-wrap">
-                    <li class="nav-item col-6 col-md-auto"><a href="{{ route('shop') }}" class="nav-link">Beranda</a>
-                    </li>
-                    <li class="nav-item col-6 col-md-auto"><a href="{{ route('checkout.index') }}"
-                            class="nav-link">Katalog</a></li>
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
+                    <li class="nav-item col-6 col-md-auto"><a href="{{ route('shop') }}" class="nav-link">Beranda</a></li>
+                    <li class="nav-item col-6 col-md-auto"><a href="{{ route('katalog') }}" class="nav-link">Katalog</a></li>
+                </ul>
 
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item">{{ Auth::user()->email }}</a>
-                        <hr class="m-0 p-0">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                <ul class="navbar-nav ms-auto">
+                    @guest
+                        <li class="nav-item">
+                            <a class="btn btn-primary me-2" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="btn btn-secondary" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @endif
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item">{{ Auth::user()->email }}</a>
+                                <hr class="m-0 p-0">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
                 </ul>
 
                 <hr class="d-lg-none text-white-50">
-
             </div>
-        </div>
         </div>
     </nav>
 

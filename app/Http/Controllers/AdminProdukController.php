@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Barang;
-use App\Models\Pembelian;
 use App\Models\Satuan;
-use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class CheckoutController extends Controller
+class AdminProdukController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $pageTitle = 'Checkout';
@@ -20,64 +21,86 @@ class CheckoutController extends Controller
 
         confirmDelete();
 
-        return view('checkout.index', [
+        return view('admin.produk.index', [
             'pageTitle' => $pageTitle,
             'barang' => $barangs
         ]);
     }
 
-    public function create($product_id)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
         $pageTitle = 'Create Order';
         $satuans = Satuan::all();
-        $product = Barang::findOrFail($product_id);
-        return view('checkout.create', compact('pageTitle', 'satuans', 'product'));
+        return view('admin.produk.create', compact('pageTitle', 'satuans'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'profile_name' => 'required|string|max:255',
-            'product_id' => 'required|exists:barangs,id',
-            'quantity' => 'required|integer|min:1', // Tambahkan validasi untuk kuantitas
-            'address' => 'required|string',
-            'payment_method' => 'required|string',
-        ]);
+    // Validasi input
+    $validator = Validator::make($request->all(), [
+        'kode' => 'required|unique:barangs,Kode_Barang',
+        'nama' => 'required',
+        'harga' => 'required|numeric',
+        'deskripsi' => 'required',
+        'satuan_id' => 'required',
+        'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+    ]);
 
-        $product = Barang::findOrFail($validatedData['product_id']);
 
-        $totalPrice = $product->Harga_Barang * $validatedData['quantity']; // Hitung total harga berdasarkan jumlah produk
-
-        Pembelian::create([
-            'user_id' => Auth::id(),
-            'nama_profile' => $validatedData['profile_name'],
-            'nama_barang' => $product->Nama_Barang,
-            'jumlah_produk' => $validatedData['quantity'], // Simpan jumlah produk yang dibeli
-            'harga_barang' => $product->Harga_Barang,
-            'total_harga' => $totalPrice, // Simpan total harga
-            'alamat' => $validatedData['address'],
-            'metode_pembayaran' => $validatedData['payment_method'],
-        ]);
-    return redirect()->route('katalog')->with('success', 'Pembelian berhasil!');
-
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
     }
 
-    public function show($id)
+    // Proses unggah gambar
+    $gambar = $request->file('gambar');
+    $nama_file = time().'.'.$gambar->getClientOriginalExtension();
+    $gambar->move(public_path('images'), $nama_file);
+
+    // Simpan data barang beserta nama file gambar
+    $barang = new Barang;
+    $barang->Kode_Barang = $request->kode;
+    $barang->Nama_Barang = $request->nama;
+    $barang->Harga_Barang = $request->harga;
+    $barang->Deskripsi_Barang = $request->deskripsi;
+    $barang->satuan_id = $request->satuan_id;
+    $barang->gambar = 'images/'.$nama_file; // Simpan path gambar ke database
+    $barang->save();
+
+    Alert::success('Added Successfully', 'Item Added Successfully.');
+    return redirect()->route('adminproduk.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
         $pageTitle = 'Show';
         $barang = Barang::findOrFail($id); // Gunakan findOrFail untuk menangani jika barang tidak ditemukan
-        return view('checkout.show', compact('pageTitle', 'barang'));
+        return view('admin.produk.show', compact('pageTitle', 'barang'));
     }
 
-    public function edit($id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
         $pageTitle = 'Edit Order';
-        $satuan = Satuan::all();
+        $satuans = Satuan::all();
         $barang = Barang::find($id);
-        return view('checkout.edit', compact('pageTitle', 'satuans', 'barang'));
+        return view('admin.produk.edit', compact('pageTitle', 'satuans', 'barang'));
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
         $messages = [
             'required' => ':Attribute harus diisi.',
@@ -106,8 +129,6 @@ class CheckoutController extends Controller
             }
         });
 
-        Alert::success('Changed Successfully', 'Item Changed
-Successfully.');
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -128,19 +149,23 @@ Successfully.');
             }
 
             $gambar = $request->file('gambar');
-            $nama_file = time() . '.' . $gambar->getClientOriginalExtension();
+            $nama_file = time().'.'.$gambar->getClientOriginalExtension();
             $gambar->move(public_path('images'), $nama_file);
-            $barang->gambar = 'images/' . $nama_file; // Simpan path gambar baru ke database
+            $barang->gambar = 'images/'.$nama_file; // Simpan path gambar baru ke database
         }
 
         $barang->save();
 
 
-        // Redirect dengan SweetAlert
-        return redirect()->route('checkout.index')->with('success', 'Order berhasil diperbarui!');
+        Alert::success('Changed Successfully', 'Item Changed
+        Successfully.');
+        return redirect()->route('adminproduk.index');
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
         $barang = Barang::findOrFail($id);
 
@@ -150,23 +175,7 @@ Successfully.');
         }
 
         $barang->delete();
-
-        Alert::success('Deleted Successfully', 'Item Deleted
-
-
-        Successfully.');
-        // Redirect dengan SweetAlert
-        return redirect()->route('checkout.index')->with('success', 'Barang berhasil dihapus!');
-    }
-
-    public function viewOnly()
-    {
-        $pageTitle = 'View Orders';
-        $barangs = Barang::all();
-
-        return view('order.view', [
-            'pageTitle' => $pageTitle,
-            'barang' => $barangs
-        ]);
+        Alert::success('Deleted Successfully', 'Item Deleted Successfully.');
+        return redirect()->route('adminproduk.index');
     }
 }

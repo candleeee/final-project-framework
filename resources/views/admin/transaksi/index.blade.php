@@ -41,8 +41,8 @@
                     <div class="d-flex justify-content-between">
                         <h1 class="h3 mb-4 text-gray-800">Kelola Transaksi</h1>
                         <div>
-                            <a href="" class="btn btn-success">Download Excel</a>
-                            <a href="" class="btn btn-danger">Download PDF</a>
+                            <a href="{{ route('pembelian.export.excel') }}" class="btn btn-success">Download Excel</a>
+                            <a href="{{ route('pembelian.export.pdf') }}" class="btn btn-danger">Download PDF</a>
                         </div>
                     </div>
                     <div class="justify-content-between rounded p-4 bg-light">

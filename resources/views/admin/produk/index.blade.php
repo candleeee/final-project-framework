@@ -41,8 +41,8 @@
                     <div class="d-flex justify-content-between">
                         <h1 class="h3 mb-4 text-gray-800">Kelola Produk</h1>
                         <div>
-                            <a href="" class="btn btn-success">Download Excel</a>
-                            <a href="" class="btn btn-danger">Download PDF</a>
+                            <a href="{{ route('adminproduk.export.excel') }}" class="btn btn-success">Download Excel</a>
+                            <a href="{{ route('adminproduk.export.pdf') }}" class="btn btn-danger">Download PDF</a>
                             <a href="{{ route('adminproduk.create') }}" class="btn btn-primary">Tambah Barang</a>
                         </div>
                     </div>

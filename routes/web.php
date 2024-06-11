@@ -22,6 +22,10 @@ Route::get('/katalog', [App\Http\Controllers\KatalogController::class, 'index'])
 Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware(['auth', 'admin.access']);
 Route::resource('adminproduk', AdminProdukController::class)->middleware(['auth', 'admin.access']);
 Route::resource('adminsatuan', AdminSatuanController::class)->middleware(['auth', 'admin.access']);
+Route::get('export/adminproduk/excel', [ExportController::class, 'exportExcel'])->name('adminproduk.export.excel')->middleware(['auth', 'admin.access']);
+Route::get('export/adminproduk/pdf', [ExportController::class, 'exportPDF'])->name('adminproduk.export.pdf')->middleware(['auth', 'admin.access']);
+Route::get('export/pembelian/excel', [ExportController::class, 'exportPembelianExcel'])->name('pembelian.export.excel')->middleware(['auth', 'admin.access']);
+Route::get('export/pembelian/pdf', [ExportController::class, 'exportPembelianPDF'])->name('pembelian.export.pdf');
 Route::resource('admintransaksi', AdminTransaksiController::class)->middleware(['auth', 'admin.access']);
 Route::resource('checkout', CheckoutController::class);
 

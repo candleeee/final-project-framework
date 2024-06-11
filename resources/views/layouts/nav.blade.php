@@ -14,7 +14,7 @@
             <hr class="d-lg-none text-white-50">
             <ul class="navbar-nav flex-row flex-wrap">
                 <li class="nav-item col-6 col-md-auto"><a href="{{ route('shop') }}" class="nav-link">Beranda</a></li>
-                <li class="nav-item col-6 col-md-auto"><a href="{{ route('checkout.index') }}" class="nav-link">Katalog</a></li>
+                <li class="nav-item col-6 col-md-auto"><a href="#" class="nav-link">Katalog</a></li>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
